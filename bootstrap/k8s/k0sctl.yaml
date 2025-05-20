@@ -1,0 +1,49 @@
+apiVersion: k0sctl.k0sproject.io/v1beta1
+kind: Cluster
+metadata:
+  name: k0s-cluster
+  user: admin
+spec:
+  hosts:
+    - ssh:
+        address: ${CP0_ADDRESS}
+        user: ${CP0_USER:-root}
+        port: ${CP0_PORT:-22}
+        keyPath: ${CP0_KEY_PATH:-~/.ssh/id_ed25519}
+      role: controller
+    - ssh:
+        address: ${CP1_ADDRESS}
+        user: ${CP1_USER:-root}
+        port: ${CP1_PORT:-22}
+        keyPath: ${CP1_KEY_PATH:-~/.ssh/id_ed25519}
+      role: controller
+    - ssh:
+        address: ${CP2_ADDRESS}
+        user: ${CP2_USER:-root}
+        port: ${CP2_PORT:-22}
+        keyPath: ${CP2_KEY_PATH:-~/.ssh/id_ed25519}
+      role: controller
+    - ssh:
+        address: ${WK0_ADDRESS}
+        user: ${WK0_USER:-root}
+        port: ${WK0_PORT:-22}
+        keyPath: ${WK0_KEY_PATH:-~/.ssh/id_ed25519}
+      role: worker
+    - ssh:
+        address: ${WK1_ADDRESS}
+        user: ${WK1_USER:-root}
+        port: ${WK1_PORT:-22}
+        keyPath: ${WK1_KEY_PATH:-~/.ssh/id_ed25519}
+      role: worker
+    - ssh:
+        address: ${WK2_ADDRESS}
+        user: ${WK2_USER:-root}
+        port: ${WK2_PORT:-22}
+        keyPath: ${WK2_KEY_PATH:-~/.ssh/id_ed25519}
+      role: worker
+    - ssh:
+        address: ${WK3_ADDRESS}
+        user: ${WK3_USER:-root}
+        port: ${WK3_PORT:-22}
+        keyPath: ${WK3_KEY_PATH:-~/.ssh/id_ed25519}
+      role: worker
