@@ -17,14 +17,15 @@ spec:
               - name: TZ
                 value: Asia/Tokyo
           server:
-            certificate:
+            ingress:
               enabled: true
-              domain: argocd.koyashiro.net
-              issuer:
-                kind: ClusterIssuer
-                name: letsencrypt-issuer
-            service:
-              type: LoadBalancer
+              annotations:
+                cert-manager.io/cluster-issuer: letsencrypt-issuer
+                nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+                nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+              ingressClassName: nginx
+              hostname: argocd.koyashiro.net
+              tls: true
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
