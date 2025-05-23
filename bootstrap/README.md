@@ -6,8 +6,8 @@
 
 ## Deploy ArgoCD
 
-[cluster](./argocd)
+[argocd](./argocd)
 
 ## Deploy secrets
 
-[cluster](./secrets)
+[secrets](./secrets)
