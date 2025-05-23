@@ -16,13 +16,13 @@ spec:
           preUpgradeChecker:
             jobEnabled: false
           ingress:
-            annotations:
-              cert-manager.io/cluster-issuer: letsencrypt-issuer
             enabled: true
             host: longhorn.koyashiro.net
             ingressClassName: nginx
-          tls: true
-          tlsSecret: longhorn-tls-secret
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-issuer
+            tls: true
+            tlsSecret: longhorn-tls
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
