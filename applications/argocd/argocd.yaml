@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - chart: argo-cd
+      repoURL: https://argoproj.github.io/argo-helm
+      targetRevision: v8.0.6
+      helm:
+        valuesObject:
+          global:
+            domain: argocd.koyashiro.net
+            env:
+              - name: TZ
+                value: Asia/Tokyo
+          server:
+            certificate:
+              enabled: true
+              domain: argocd.koyashiro.net
+              issuer:
+                kind: ClusterIssuer
+                name: letsencrypt-issuer
+            service:
+              type: LoadBalancer
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

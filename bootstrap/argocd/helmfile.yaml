@@ -8,4 +8,31 @@ releases:
     chart: argo/argo-cd
     version: 8.0.6
     values:
-      - values.yaml
+      - global:
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+  - name: applications
+    namespace: argocd
+    chart: argo/argocd-apps
+    version: 2.0.2
+    values:
+      - applications:
+          applications:
+            namespace: argocd
+            project: default
+            source:
+              repoURL: https://github.com/koyashiro/k8s-manifests
+              targetRevision: HEAD
+              path: applications
+              directory:
+                recurse: true
+            destination:
+              server: https://kubernetes.default.svc
+              namespace: argocd
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
+              syncOptions:
+                - CreateNamespace=true
