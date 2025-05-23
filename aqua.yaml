@@ -3,6 +3,7 @@ registries:
     ref: v4.371.0 # renovate: depName=aquaproj/aqua-registry
 packages:
   - name: argoproj/argo-cd@v3.0.3
+  - name: derailed/k9s@v0.50.6
   - name: helm/helm@v3.18.0
   - name: helmfile/helmfile@v1.1.0
   - name: k0sproject/k0sctl@v0.24.0
