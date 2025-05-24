@@ -24,6 +24,7 @@ spec:
     - group: metallb.io
       kind: IPAddressPool
       name: metallb-ip-address-pool
+      namespace: metallb-system
       jsonPointers:
         - /spec/addresses
   syncPolicy:

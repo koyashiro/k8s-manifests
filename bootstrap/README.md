@@ -7,7 +7,3 @@
 ## Deploy ArgoCD
 
 [argocd](./argocd)
-
-## Deploy secrets
-
-[secrets](./secrets)
