@@ -9,7 +9,7 @@ spec:
   project: default
   sources:
     - chart: longhorn
-      repoURL: https://charts.longhorn.io/
+      repoURL: https://charts.longhorn.io
       targetRevision: v1.8.1
       helm:
         valuesObject:
