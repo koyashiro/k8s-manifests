@@ -7,6 +7,10 @@ releases:
     namespace: argocd
     chart: argo/argo-cd
     version: 8.0.9
+    values:
+      - configs:
+          cm:
+            kustomize.buildOptions: --enable-helm
   - name: root
     namespace: argocd
     chart: argo/argocd-apps
