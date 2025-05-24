@@ -19,12 +19,12 @@ spec:
       kind: ClusterIssuer
       name: letsencrypt
       jsonPointers:
-        - /spec/email
+        - /spec/acme/email
     - group: cert-manager.io
       kind: ClusterIssuer
       name: letsencrypt-staging
       jsonPointers:
-        - /spec/email
+        - /spec/acme/email
   syncPolicy:
     automated:
       selfHeal: true
