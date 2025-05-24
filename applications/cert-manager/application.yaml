@@ -11,9 +11,10 @@ spec:
     - chart: cert-manager
       repoURL: https://charts.jetstack.io
       targetRevision: v1.17.2
-      valuesObject:
-        crds:
-          enabled: true
+      helm:
+        valuesObject:
+          crds:
+            enabled: true
     - repoURL: https://github.com/koyashiro/k8s-manifests
       targetRevision: HEAD
       path: applications/cert-manager
