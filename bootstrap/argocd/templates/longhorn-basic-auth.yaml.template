@@ -3,8 +3,6 @@ kind: Secret
 metadata:
   name: longhorn-basic-auth
   namespace: longhorn-system
-  annotations:
-    argocd.argoproj.io/ignore-resource-updates: "true"
 type: Opaque
 stringData:
   auth: ${LONGHORN_BASIC_AUTH}
