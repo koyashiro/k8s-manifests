@@ -8,9 +8,32 @@ metadata:
 spec:
   project: default
   sources:
+    - chart: longhorn
+      repoURL: https://charts.longhorn.io
+      targetRevision: v1.8.1
+      valuesObject:
+        preUpgradeChecker:
+          jobEnabled: false
+        defaultSettings:
+          allowCollectingLonghornUsageMetrics: false
+        ingress:
+          enabled: true
+          host: longhorn.koyashiro.net
+          ingressClassName: nginx
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt
+            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+            nginx.ingress.kubernetes.io/backend-protocol: HTTP
+            nginx.ingress.kubernetes.io/auth-type: basic
+            nginx.ingress.kubernetes.io/auth-secret: longhorn-basic-auth
+            nginx.ingress.kubernetes.io/auth-realm: Authentication Required
+          tls: true
+          tlsSecret: longhorn-tls
     - repoURL: https://github.com/koyashiro/k8s-manifests
       targetRevision: HEAD
-      path: kustomizations/longhorn
+      path: applications/longhorn
+      directory:
+        exclude: application.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
