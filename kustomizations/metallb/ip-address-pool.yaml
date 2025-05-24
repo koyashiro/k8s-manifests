@@ -4,4 +4,5 @@ metadata:
   name: metallb-ip-address-pool
   namespace: metallb-system
 spec:
-  addresses: []
+  addresses:
+    - 192.0.2.0/24
