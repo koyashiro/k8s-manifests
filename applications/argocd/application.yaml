@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   sources:
-    - repoURL: https://github.com/koyashiro/k8s-manifests
-      targetRevision: HEAD
-      path: applications/argocd
+    - chart: argo-cd
+      repoURL: https://argoproj.github.io/argo-helm
+      targetRevision: v8.0.9
       helm:
         valuesObject:
           global:
@@ -24,6 +24,9 @@ spec:
               ingressClassName: nginx
               hostname: argocd.koyashiro.net
               tls: true
+    - repoURL: https://github.com/koyashiro/k8s-manifests
+      targetRevision: HEAD
+      path: applications/argocd
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
