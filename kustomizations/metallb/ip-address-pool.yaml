@@ -3,6 +3,8 @@ kind: IPAddressPool
 metadata:
   name: metallb-ip-address-pool
   namespace: metallb-system
+  annotations:
+    argocd.argoproj.io/ignore-resource-updates: "true"
 spec:
   addresses:
     - 192.0.2.0/24 # replace this later

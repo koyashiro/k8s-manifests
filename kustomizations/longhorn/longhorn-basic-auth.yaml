@@ -4,7 +4,7 @@ metadata:
   name: longhorn-basic-auth
   namespace: longhorn-system
   annotations:
-    argocd.argoproj.io/sync-options: Skip
+    argocd.argoproj.io/ignore-resource-updates: "true"
 type: Opaque
 stringData:
   auth: "" # replace this later
