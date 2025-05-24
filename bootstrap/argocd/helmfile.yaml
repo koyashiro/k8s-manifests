@@ -12,13 +12,13 @@ releases:
           env:
             - name: TZ
               value: Asia/Tokyo
-  - name: applications
+  - name: root
     namespace: argocd
     chart: argo/argocd-apps
     version: 2.0.2
     values:
       - applications:
-          applications:
+          root:
             namespace: argocd
             project: default
             source:
