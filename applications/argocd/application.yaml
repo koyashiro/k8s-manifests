@@ -8,14 +8,11 @@ spec:
   sources:
     - repoURL: https://github.com/koyashiro/k8s-manifests
       targetRevision: HEAD
-      path: kustomizations/argocd
+      path: applications/argocd
       helm:
         valuesObject:
           global:
             domain: argocd.koyashiro.net
-          configs:
-            cm:
-              kustomize.buildOptions: --enable-helm
           server:
             ingress:
               enabled: true
