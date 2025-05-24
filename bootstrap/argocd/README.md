@@ -11,8 +11,7 @@ kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.pas
   source .env
   set +a
   for f in templates/*.yaml.template; do
-    envsubst < "$f" > "${f%.template}"
+    envsubst < "$f" | kubectl apply -f -
   done
-  kubectl apply -f templates/
 )
 ```
