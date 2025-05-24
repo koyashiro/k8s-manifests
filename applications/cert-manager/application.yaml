@@ -10,7 +10,7 @@ spec:
   sources:
     - repoURL: https://github.com/koyashiro/k8s-manifests
       targetRevision: HEAD
-      path: applications/cert-manager
+      path: kustomizations/cert-manager
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
