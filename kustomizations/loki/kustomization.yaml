@@ -5,6 +5,8 @@ helmCharts:
     releaseName: loki
     namespace: loki
     valuesInline:
+      singleBinary: # TODO: fix
+        replicas: 1
       loki:
         storage:
           type: filesystem # TODO: s3
