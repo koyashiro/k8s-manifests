@@ -6,4 +6,3 @@ helmCharts:
     namespace: metallb-system
 resources:
   - l2-advertisement.yaml
-  - ip-address-pool.yaml

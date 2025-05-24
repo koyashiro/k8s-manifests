@@ -6,7 +6,3 @@ helmCharts:
     namespace: cert-manager
     valuesInline:
       installCRDs: true
-resources:
-  - letsencrypt.yaml
-  - letsencrypt-staging.yaml
-  - cloudflare-api-token.yaml

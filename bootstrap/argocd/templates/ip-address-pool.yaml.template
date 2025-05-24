@@ -7,4 +7,4 @@ metadata:
     argocd.argoproj.io/ignore-resource-updates: "true"
 spec:
   addresses:
-    - 192.0.2.0/24 # replace this later
+    - ${IP_ADDRESS_POOL}

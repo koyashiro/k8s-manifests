@@ -22,5 +22,3 @@ helmCharts:
           nginx.ingress.kubernetes.io/auth-realm: Authentication Required
         tls: true
         tlsSecret: longhorn-tls
-resources:
-  - longhorn-basic-auth.yaml

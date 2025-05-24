@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: longhorn-basic-auth
-  namespace: longhorn-system
+  name: cloudflare-api-token
+  namespace: cert-manager
   annotations:
     argocd.argoproj.io/ignore-resource-updates: "true"
 type: Opaque
 stringData:
-  auth: "" # replace this later
+  api-token: ${CF_API_TOKEN}
