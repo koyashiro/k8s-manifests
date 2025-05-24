@@ -11,6 +11,24 @@ releases:
       - configs:
           cm:
             kustomize.buildOptions: --enable-helm
+  - name: cert-manager-secrets
+    namespace: cert-manager
+    chart: ./charts/cert-manager-secrets
+    version: 0.1.0
+    values:
+      - cert-manager-secrets-values.yaml.gotmpl
+  - name: metallb-secrets
+    namespace: metallb-system
+    chart: ./charts/metallb-secrets
+    version: 0.1.0
+    values:
+      - metallb-secrets-values.yaml.gotmpl
+  - name: longhorn-secrets
+    namespace: longhorn-system
+    chart: ./charts/longhorn-secrets
+    version: 0.1.0
+    values:
+      - longhorn-secrets-values.yaml.gotmpl
   - name: root
     namespace: argocd
     chart: argo/argocd-apps
@@ -35,21 +53,3 @@ releases:
                 selfHeal: true
               syncOptions:
                 - CreateNamespace=true
-  - name: cert-manager-secrets
-    namespace: cert-manager
-    chart: ./charts/cert-manager-secrets
-    version: 0.1.0
-    values:
-      - cert-manager-secrets-values.yaml.gotmpl
-  - name: metallb-secrets
-    namespace: metallb-system
-    chart: ./charts/metallb-secrets
-    version: 0.1.0
-    values:
-      - metallb-secrets-values.yaml.gotmpl
-  - name: longhorn-secrets
-    namespace: longhorn-system
-    chart: ./charts/longhorn-secrets
-    version: 0.1.0
-    values:
-      - longhorn-secrets-values.yaml.gotmpl
