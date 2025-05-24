@@ -19,7 +19,7 @@ spec:
       kind: CustomResourceDefinition
       jsonPointers:
         - /spec/preserveUnknownFields
-    - group: core
+    - group: "" # core
       kind: Secret
       name: longhorn-basic-auth
       namespace: longhorn-system

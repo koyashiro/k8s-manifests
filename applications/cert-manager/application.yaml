@@ -27,7 +27,7 @@ spec:
       namespace: cert-manager
       jsonPointers:
         - /spec/acme/email
-    - group: core
+    - group: "" # core
       kind: Secret
       name: cloudflare-api-token
       namespace: cert-manager
