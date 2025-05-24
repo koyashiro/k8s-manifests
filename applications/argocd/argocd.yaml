@@ -6,27 +6,9 @@ metadata:
 spec:
   project: default
   sources:
-    - chart: argo-cd
-      repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: v8.0.9
-      helm:
-        valuesObject:
-          global:
-            domain: argocd.koyashiro.net
-          configs:
-            cm:
-              kustomize.buildOptions: --enable-helm
-          server:
-            ingress:
-              enabled: true
-              annotations:
-                cert-manager.io/cluster-issuer: letsencrypt-staging
-                nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-                nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-                nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-              ingressClassName: nginx
-              hostname: argocd.koyashiro.net
-              tls: true
+    - repoURL: https://github.com/koyashiro/k8s-manifests
+      targetRevision: HEAD
+      path: applications/argocd
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

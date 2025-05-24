@@ -8,9 +8,9 @@ metadata:
 spec:
   project: default
   sources:
-    - chart: metallb
-      repoURL: https://metallb.github.io/metallb
-      targetRevision: v0.14.9
+    - repoURL: https://github.com/koyashiro/k8s-manifests
+      targetRevision: HEAD
+      path: applications/metallb
   destination:
     server: https://kubernetes.default.svc
     namespace: metallb-system

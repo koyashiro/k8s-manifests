@@ -8,12 +8,9 @@ metadata:
 spec:
   project: default
   sources:
-    - chart: cert-manager
-      repoURL: https://charts.jetstack.io
-      targetRevision: v1.17.2
-      helm:
-        valuesObject:
-          installCRDs: true
+    - repoURL: https://github.com/koyashiro/k8s-manifests
+      targetRevision: HEAD
+      path: applications/cert-manager
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
