@@ -14,11 +14,6 @@ spec:
       helm:
         valuesObject:
           installCRDs: true
-          prometheus:
-            enabled: false
-          extraEnv:
-            - name: TZ
-              value: Asia/Tokyo
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager

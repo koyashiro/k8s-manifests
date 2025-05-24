@@ -13,9 +13,6 @@ spec:
         valuesObject:
           global:
             domain: argocd.koyashiro.net
-            env:
-              - name: TZ
-                value: Asia/Tokyo
           server:
             ingress:
               enabled: true
