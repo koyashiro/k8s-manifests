@@ -9,6 +9,23 @@ spec:
     - repoURL: https://github.com/koyashiro/k8s-manifests
       targetRevision: HEAD
       path: kustomizations/argocd
+      valuesObject:
+        global:
+          domain: argocd.koyashiro.net
+        configs:
+          cm:
+            kustomize.buildOptions: --enable-helm
+        server:
+          ingress:
+            enabled: true
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+              nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+              nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+            ingressClassName: nginx
+            hostname: argocd.koyashiro.net
+            tls: true
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
