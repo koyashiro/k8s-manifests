@@ -1,0 +1,19 @@
+helmCharts:
+  - name: grafana
+    repo: https://grafana.github.io/helm-charts
+    version: 9.2.0
+    releaseName: grafana
+    namespace: grafana
+    valuesInline:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/backend-protocol: HTTP
+        hosts:
+          - grafana.koyashiro.net
+      grafana.ini:
+        server:
+          domain: grafana.koyashiro.net
