@@ -14,6 +14,25 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
+  ignoreDifferences:
+    - group: cert-manager.io
+      kind: ClusterIssuer
+      name: letsencrypt
+      namespace: cert-manager
+      jsonPointers:
+        - /spec/acme/email
+    - group: cert-manager.io
+      kind: ClusterIssuer
+      name: letsencrypt-staging
+      namespace: cert-manager
+      jsonPointers:
+        - /spec/acme/email
+    - group: "" # core
+      kind: Secret
+      name: cloudflare-api-token
+      namespace: cert-manager
+      jsonPointers:
+        - /data
   syncPolicy:
     automated:
       selfHeal: true
