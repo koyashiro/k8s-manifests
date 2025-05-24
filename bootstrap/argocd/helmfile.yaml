@@ -16,22 +16,31 @@ releases:
     chart: argo/argocd-apps
     version: 2.0.2
     values:
-      - applications:
+      - applicationsets:
           root:
             namespace: argocd
-            project: default
-            source:
-              repoURL: https://github.com/koyashiro/k8s-manifests
-              targetRevision: HEAD
-              path: applications
-              directory:
-                recurse: true
-            destination:
-              server: https://kubernetes.default.svc
-              namespace: argocd
-            syncPolicy:
-              automated:
-                prune: true
-                selfHeal: true
-              syncOptions:
-                - CreateNamespace=true
+            generators:
+              - git:
+                repoURL: https://github.com/koyashiro/k8s-manifests.git
+                revision: HEAD
+                directories:
+                  - path: applications/*
+            template:
+              metadata:
+                name: "{path.basename}"
+                namespace: argocd
+              spec:
+                project: default
+                sources:
+                  - repoURL: https://github.com/koyashiro/k8s-manifests.git
+                    targetRevision: HEAD
+                    path: "{{path}}"
+                destination:
+                  server: https://kubernetes.default.svc
+                  namespace: argocd
+              syncPolicy:
+                automated:
+                  selfHeal: true
+                  prune: true
+                syncOptions:
+                  - CreateNamespace=true
