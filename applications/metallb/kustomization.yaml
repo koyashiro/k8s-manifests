@@ -1,3 +1,4 @@
+namespace: metallb-system
 helmCharts:
   - name: metallb
     repo: https://metallb.github.io/metallb
