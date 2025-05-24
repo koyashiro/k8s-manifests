@@ -5,6 +5,13 @@ helmCharts:
     releaseName: loki
     namespace: loki
     valuesInline:
+      loki:
+        storage:
+          type: filesystem # TODO: s3
+          filesystem:
+            chunks_directory: /var/loki/chunks
+            rules_directory: /var/loki/rules
+            admin_api_directory: /var/loki/admin
       ingress:
         enabled: true
         ingressClassName: nginx
