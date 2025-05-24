@@ -5,4 +5,5 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-    - ${IP_ADDRESS_POOL}
+    - {{ .Values.ip_address_pool | quote  }}
+

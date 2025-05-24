@@ -5,4 +5,4 @@ metadata:
   namespace: longhorn-system
 type: Opaque
 stringData:
-  auth: ${LONGHORN_BASIC_AUTH}
+  auth: {{ .Values.longhorn_basic_auth | quote }}
