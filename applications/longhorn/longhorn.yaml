@@ -8,9 +8,9 @@ metadata:
 spec:
   project: default
   sources:
-    repoURL: https://github.com/koyashiro/k8s-manifests
-    targetRevision: HEAD
-    path: applications/longhorn
+    - repoURL: https://github.com/koyashiro/k8s-manifests
+      targetRevision: HEAD
+      path: applications/longhorn
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
