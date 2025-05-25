@@ -1,15 +1,14 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: mediamtx-tls
+  name: mediamtx-rtmps-tls
   namespace: mediamtx
   labels:
     app: mediamtx
 spec:
-  secretName: mediamtx-tls
-  commonName: live.koyashiro.net
+  secretName: mediamtx-rtmps-tls
+  commonName: rtmps.live.koyashiro.net
   dnsNames:
-    - live.koyashiro.net
     - rtmps.live.koyashiro.net
   issuerRef:
     name: letsencrypt
