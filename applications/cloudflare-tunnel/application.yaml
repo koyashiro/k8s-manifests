@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudflare-tunnel
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - chart: cloudflare-tunnel
+      repoURL: https://cloudflare.github.io/helm-charts
+      targetRevision: v0.3.2
+      helm:
+        valuesObject:
+          cloudflare:
+            tunnelName: kubernetes
+            secretName: cloudflare-tunnel
+            ingress:
+              - hostname: live.koyashiro.net
+                service: https://live.koyashiro.net
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cloudflare-tunnel
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

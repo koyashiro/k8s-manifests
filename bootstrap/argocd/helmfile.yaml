@@ -29,6 +29,12 @@ releases:
     version: 0.1.0
     values:
       - longhorn-secrets-values.yaml.gotmpl
+  - name: cloudflare-tunnel-secrets
+    namespace: cloudflare-tunnel
+    chart: ./charts/cloudflare-tunnel-secrets
+    version: 0.1.0
+    values:
+      - cloudflare-tunnel-secrets-values.yaml.gotmpl
   - name: mediamtx-secrets
     namespace: mediamtx
     chart: ./charts/mediamtx-secrets

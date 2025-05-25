@@ -6,10 +6,5 @@ kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.pas
 ```
 
 ```sh
-(
- set -a
- source .env
- set +a
- helmfile apply
-)
+(set -a && source .env && set +a && helmfile apply)
 ```
