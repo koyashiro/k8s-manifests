@@ -5,4 +5,4 @@ metadata:
   namespace: cert-manager
 type: Opaque
 stringData:
-  api-token: {{ .Values.cloudflare_api_token | quote }}
+  api-token: {{ .Values.cf_api_token | quote }}
