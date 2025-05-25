@@ -29,7 +29,6 @@ spec:
               nginx.ingress.kubernetes.io/auth-secret: longhorn-basic-auth
               nginx.ingress.kubernetes.io/auth-realm: Authentication Required
             tls: true
-            tlsSecret: longhorn-tls
     - repoURL: https://github.com/koyashiro/k8s-manifests
       targetRevision: HEAD
       path: applications/longhorn
