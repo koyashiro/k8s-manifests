@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mediamtx
+  namespace: mediamtx
+  labels:
+    app: mediamtx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mediamtx
+  template:
+    metadata:
+      labels:
+        app: mediamtx
+    spec:
+      containers:
+        - name: mediamtx
+          image: bluenviron/mediamtx:1.12.2
+          ports:
+            - containerPort: 1935
+            - containerPort: 8888
+          env:
+            - name: MTX_HLSALWAYSREMUX
+              value: "true"
+            - name: MTX_HLSVARIANT
+              value: mpegts
+            - name: MTX_HLSSEGMENTCOUNT
+              value: "3"
+            - name: MTX_HLSSEGMENTDURATION
+              value: 1s
+            - name: MTX_AUTH_INTERNAL_USERS
+              valueFrom:
+                secretKeyRef:
+                  name: mediamtx-auth-internal-users
+                  key: users
+            - name: MTX_PATHS_STREAM_SOURCE
+              value: publisher

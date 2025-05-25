@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mediamtx
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/koyashiro/k8s-manifests
+      targetRevision: HEAD
+      path: applications/mediamtx
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mediamtx
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

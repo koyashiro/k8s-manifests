@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mediamtx-auth-internal-users
+  namespace: mediamtx
+  labels:
+    app: mediamtx
+type: Opaque
+stringData:
+  users: {{ .Values.mediamtx_muth_internal_users | quote }}

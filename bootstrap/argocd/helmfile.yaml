@@ -29,6 +29,12 @@ releases:
     version: 0.1.0
     values:
       - longhorn-secrets-values.yaml.gotmpl
+  - name: mediamtx-secrets
+    namespace: mediamtx
+    chart: ./charts/mediamtx-secrets
+    version: 0.1.0
+    values:
+      - mediamtx-secrets-values.yaml.gotmpl
   - name: root
     namespace: argocd
     chart: argo/argocd-apps
