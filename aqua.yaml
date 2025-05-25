@@ -1,6 +1,6 @@
 registries:
   - type: standard
-    ref: v4.371.0 # renovate: depName=aquaproj/aqua-registry
+    ref: v4.371.1 # renovate: depName=aquaproj/aqua-registry
 packages:
   - name: argoproj/argo-cd@v3.0.3
   - name: derailed/k9s@v0.50.6
