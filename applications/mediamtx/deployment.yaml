@@ -19,9 +19,17 @@ spec:
         - name: mediamtx
           image: bluenviron/mediamtx:1.12.2
           ports:
-            - containerPort: 1935
+            - containerPort: 1936
             - containerPort: 8888
           env:
+            - name: MTX_RTSP
+              value: "no"
+            - name: MTX_RTMPENCRYPTION
+              value: "strict"
+            - name: MTX_WEBRTC
+              value: "no"
+            - name: MTX_SRT
+              value: "no"
             - name: MTX_HLSALWAYSREMUX
               value: "true"
             - name: MTX_HLSVARIANT
@@ -37,3 +45,14 @@ spec:
                   key: users
             - name: MTX_PATHS_STREAM_SOURCE
               value: publisher
+          volumeMounts:
+            - name: tls
+              mountPath: /server.key
+              subPath: tls.key
+            - name: tls
+              mountPath: /server.crt
+              subPath: tls.crt
+      volumes:
+        - name: tls
+          secret:
+            secretName: mediamtx-tls

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mediamtx-rtmps
+  namespace: mediamtx
+  labels:
+    app: mediamtx
+spec:
+  selector:
+    app: mediamtx
+  type: LoadBalancer
+  ports:
+    - name: rtmps
+      port: 443
+      targetPort: 1936
+      protocol: TCP
