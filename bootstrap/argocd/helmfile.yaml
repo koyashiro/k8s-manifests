@@ -16,31 +16,31 @@ releases:
     chart: ./charts/cert-manager-secrets
     version: 0.1.0
     values:
-      - cert-manager-secrets-values.yaml.gotmpl
+      - ./values/cert-manager-secrets-values.yaml.gotmpl
   - name: metallb-secrets
     namespace: metallb-system
     chart: ./charts/metallb-secrets
     version: 0.1.0
     values:
-      - metallb-secrets-values.yaml.gotmpl
+      - ./values/metallb-secrets-values.yaml.gotmpl
   - name: longhorn-secrets
     namespace: longhorn-system
     chart: ./charts/longhorn-secrets
     version: 0.1.0
     values:
-      - longhorn-secrets-values.yaml.gotmpl
+      - ./values/longhorn-secrets-values.yaml.gotmpl
   - name: cloudflare-tunnel-secrets
     namespace: cloudflare-tunnel
     chart: ./charts/cloudflare-tunnel-secrets
     version: 0.1.0
     values:
-      - cloudflare-tunnel-secrets-values.yaml.gotmpl
+      - ./values/cloudflare-tunnel-secrets-values.yaml.gotmpl
   - name: mediamtx-secrets
     namespace: mediamtx
     chart: ./charts/mediamtx-secrets
     version: 0.1.0
     values:
-      - mediamtx-secrets-values.yaml.gotmpl
+      - ./values/mediamtx-secrets-values.yaml.gotmpl
   - name: root
     namespace: argocd
     chart: argo/argocd-apps
