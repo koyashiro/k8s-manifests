@@ -46,13 +46,13 @@ spec:
             - name: MTX_PATHS_STREAM_SOURCE
               value: publisher
           volumeMounts:
-            - name: tls
+            - name: mediamtx-rtmps-tls
               mountPath: /server.key
               subPath: tls.key
-            - name: tls
+            - name: mediamtx-rtmps-tls
               mountPath: /server.crt
               subPath: tls.crt
       volumes:
-        - name: tls
+        - name: mediamtx-rtmps-tls
           secret:
-            secretName: mediamtx-tls
+            secretName: mediamtx-rtmps-tls
