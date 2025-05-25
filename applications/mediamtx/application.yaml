@@ -9,6 +9,8 @@ spec:
     - repoURL: https://github.com/koyashiro/k8s-manifests
       targetRevision: HEAD
       path: applications/mediamtx
+      directory:
+        exclude: application.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: mediamtx

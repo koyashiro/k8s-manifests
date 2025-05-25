@@ -27,6 +27,8 @@ spec:
     - repoURL: https://github.com/koyashiro/k8s-manifests
       targetRevision: HEAD
       path: applications/argocd
+      directory:
+        exclude: application.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
