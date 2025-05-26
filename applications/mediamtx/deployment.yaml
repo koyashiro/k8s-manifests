@@ -38,6 +38,8 @@ spec:
               value: "3"
             - name: MTX_HLSSEGMENTDURATION
               value: 1s
+            - name: MTX_HLSVARIANT
+              value: mpegts
             - name: MTX_AUTH_INTERNAL_USERS
               valueFrom:
                 secretKeyRef:
