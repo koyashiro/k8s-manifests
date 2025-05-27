@@ -156,6 +156,10 @@ spec:
             zoneAwareReplication:
               topologyKey: "kubernetes.io/hostname"
           nginx:
+            enabled: false
+          admin_api:
+            enabled: false
+          gateway:
             replicas: 1
             resources:
               limits:
@@ -170,7 +174,7 @@ spec:
                 nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
                 nginx.ingress.kubernetes.io/backend-protocol: HTTP
                 nginx.ingress.kubernetes.io/auth-type: basic
-                nginx.ingress.kubernetes.io/auth-secret: mimir-nginx-basic-auth
+                nginx.ingress.kubernetes.io/auth-secret: mimir-basic-auth
                 nginx.ingress.kubernetes.io/auth-realm: Authentication Required
               ingressClassName: nginx
               hosts:
@@ -181,17 +185,7 @@ spec:
               tls:
                 - hosts:
                     - mimir.koyashiro.net
-                  secretName: mimir-nginx-tls
-          admin_api:
-            enabled: false
-          gateway:
-            replicas: 1
-            resources:
-              limits:
-                memory: 91Mi
-              requests:
-                cpu: 0.125
-                memory: 64Mi
+                  secretName: mimir-tls
     - repoURL: https://github.com/koyashiro/k8s-manifests
       targetRevision: HEAD
       path: applications/mimir
