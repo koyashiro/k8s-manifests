@@ -11,36 +11,11 @@ releases:
       - configs:
           cm:
             kustomize.buildOptions: --enable-helm
-  - name: cert-manager-secrets
-    namespace: cert-manager
-    chart: ./charts/cert-manager-secrets
-    version: 0.1.0
+  - name: secrets
+    chart: ./charts/secrets
+    version: 1.0.0
     values:
-      - ./values/cert-manager-secrets-values.yaml.gotmpl
-  - name: metallb-secrets
-    namespace: metallb-system
-    chart: ./charts/metallb-secrets
-    version: 0.1.0
-    values:
-      - ./values/metallb-secrets-values.yaml.gotmpl
-  - name: longhorn-secrets
-    namespace: longhorn-system
-    chart: ./charts/longhorn-secrets
-    version: 0.1.0
-    values:
-      - ./values/longhorn-secrets-values.yaml.gotmpl
-  - name: cloudflare-tunnel-secrets
-    namespace: cloudflare-tunnel
-    chart: ./charts/cloudflare-tunnel-secrets
-    version: 0.1.0
-    values:
-      - ./values/cloudflare-tunnel-secrets-values.yaml.gotmpl
-  - name: mediamtx-secrets
-    namespace: mediamtx
-    chart: ./charts/mediamtx-secrets
-    version: 0.1.0
-    values:
-      - ./values/mediamtx-secrets-values.yaml.gotmpl
+      - ./secrets-values.yaml.gotmpl
   - name: root
     namespace: argocd
     chart: argo/argocd-apps
