@@ -159,7 +159,8 @@ spec:
             enabled: false
           admin_api:
             enabled: false
-          gateway:
+          ingress:
+            enabled: true
             replicas: 1
             resources:
               limits:
@@ -167,25 +168,41 @@ spec:
               requests:
                 cpu: 0.125
                 memory: 64Mi
-            ingress:
-              enabled: true
-              annotations:
-                cert-manager.io/cluster-issuer: letsencrypt
-                nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-                nginx.ingress.kubernetes.io/backend-protocol: HTTP
-                nginx.ingress.kubernetes.io/auth-type: basic
-                nginx.ingress.kubernetes.io/auth-secret: mimir-basic-auth
-                nginx.ingress.kubernetes.io/auth-realm: Authentication Required
-              ingressClassName: nginx
-              hosts:
-                - host: mimir.koyashiro.net
-                  paths:
-                    - path: /
-                      pathType: Prefix
-              tls:
-                - hosts:
-                    - mimir.koyashiro.net
-                  secretName: mimir-tls
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+              nginx.ingress.kubernetes.io/backend-protocol: HTTP
+              nginx.ingress.kubernetes.io/auth-type: basic
+              nginx.ingress.kubernetes.io/auth-secret: mimir-basic-auth
+              nginx.ingress.kubernetes.io/auth-realm: Authentication Required
+            ingressClassName: nginx
+            paths:
+              distributor-headless:
+                - path: /distributor
+                - path: /api/v1/push
+                - path: /otlp/v1/metrics
+              alertmanager-headless:
+                - path: /alertmanager
+                - path: /multitenant_alertmanager/status
+                - path: /multitenant_alertmanager/configs
+                - path: /api/v1/alerts
+              ruler:
+                - path: /prometheus/config/v1/rules
+                - path: /prometheus/api/v1/rules
+                - path: /prometheus/api/v1/alerts
+              query-frontend:
+                - path: /prometheus
+                - path: /api/v1/status/buildinfo
+              compactor:
+                - path: /api/v1/upload/block/
+            hosts:
+              - mimir.koyashiro.net
+            tls:
+              - hosts:
+                  - mimir.koyashiro.net
+                secretName: mimir-tls
+          gateway:
+            enabled: false
     - repoURL: https://github.com/koyashiro/k8s-manifests
       targetRevision: HEAD
       path: applications/mimir
