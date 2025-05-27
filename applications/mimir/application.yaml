@@ -1,0 +1,208 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mimir
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - chart: mimir-distributed
+      repoURL: https://grafana.github.io/helm-charts
+      targetRevision: v5.7.0
+      helm:
+        valuesObject:
+          global:
+            extraEnvFrom:
+              - secretRef:
+                  name: mimir-environment-variables
+          mimir:
+            structuredConfig:
+              common:
+                storage:
+                  backend: s3
+                  s3:
+                    endpoint: ${AWS_ENDPOINT_URL_S3}
+                    region: ${AWS_REGION}
+                    access_key_id: ${AWS_ACCESS_KEY_ID}
+                    secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+              blocks_storage:
+                s3:
+                  bucket_name: ${MIMIR_BLOCKS_STORAGE_BUCKET_NAME}
+              ruler_storage:
+                s3:
+                  bucket_name: ${MIMIR_RULER_STORAGE_BUCKET_NAME}
+              alertmanager_storage:
+                s3:
+                  bucket_name: ${MIMIR_ALERTMANAGER_STORAGE_BUCKET_NAME}
+          alertmanager:
+            persistentVolume:
+              enabled: true
+            replicas: 2
+            resources:
+              limits:
+                memory: 0.17Gi
+              requests:
+                cpu: 0.125
+                memory: 0.12Gi
+            statefulSet:
+              enabled: true
+          compactor:
+            persistentVolume:
+              size: 2.5Gi
+            resources:
+              limits:
+                memory: 0.262Gi
+              requests:
+                cpu: 0.125
+                memory: 0.187Gi
+          distributor:
+            replicas: 2
+            resources:
+              limits:
+                memory: 0.71Gi
+              requests:
+                cpu: 0.25
+                memory: 0.5Gi
+          ingester:
+            persistentVolume:
+              size: 6.25Gi
+            replicas: 3
+            resources:
+              limits:
+                memory: 1.5Gi
+              requests:
+                cpu: 0.437
+                memory: 1Gi
+            topologySpreadConstraints: {}
+            affinity:
+              podAntiAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  - labelSelector:
+                      matchExpressions:
+                        - key: app.kubernetes.io/component
+                          operator: In
+                          values:
+                            - ingester
+                    topologyKey: "kubernetes.io/hostname"
+            zoneAwareReplication:
+              topologyKey: "kubernetes.io/hostname"
+          admin-cache:
+            enabled: false
+          chunks-cache:
+            enabled: false
+          index-cache:
+            enabled: false
+          metadata-cache:
+            enabled: false
+          results-cache:
+            enabled: false
+          minio:
+            enabled: false
+          overrides_exporter:
+            enabled: false
+          querier:
+            replicas: 1
+            resources:
+              limits:
+                memory: 0.7Gi
+              requests:
+                cpu: 0.25
+                memory: 0.5Gi
+          query_frontend:
+            replicas: 1
+            resources:
+              limits:
+                memory: 0.35Gi
+              requests:
+                cpu: 0.25
+                memory: 0.25Gi
+          ruler:
+            enabled: false
+            resources:
+              limits:
+                memory: 0.35Gi
+              requests:
+                cpu: 0.125
+                memory: 0.25Gi
+          store_gateway:
+            persistentVolume:
+              size: 1.25Gi
+            replicas: 3
+            resources:
+              limits:
+                memory: 0.265Gi
+              requests:
+                cpu: 0.125
+                memory: 0.187Gi
+            topologySpreadConstraints: {}
+            affinity:
+              podAntiAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  - labelSelector:
+                      matchExpressions:
+                        - key: target # support for enterprise.legacyLabels
+                          operator: In
+                          values:
+                            - store-gateway
+                    topologyKey: "kubernetes.io/hostname"
+
+                  - labelSelector:
+                      matchExpressions:
+                        - key: app.kubernetes.io/component
+                          operator: In
+                          values:
+                            - store-gateway
+                    topologyKey: "kubernetes.io/hostname"
+            zoneAwareReplication:
+              topologyKey: "kubernetes.io/hostname"
+          nginx:
+            replicas: 1
+            resources:
+              limits:
+                memory: 91Mi
+              requests:
+                cpu: 0.125
+                memory: 64Mi
+            ingress:
+              enabled: true
+              annotations:
+                cert-manager.io/cluster-issuer: letsencrypt
+                nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+                nginx.ingress.kubernetes.io/backend-protocol: HTTP
+                nginx.ingress.kubernetes.io/auth-type: basic
+                nginx.ingress.kubernetes.io/auth-secret: mimir-nginx-basic-auth
+                nginx.ingress.kubernetes.io/auth-realm: Authentication Required
+              ingressClassName: nginx
+              hosts:
+                - host: mimir.koyashiro.net
+                  paths:
+                    - path: /
+                      pathType: Prefix
+              tls:
+                - hosts:
+                    - mimir.koyashiro.net
+                  secretName: mimir-nginx-tls
+          admin_api:
+            enabled: false
+          gateway:
+            replicas: 1
+            resources:
+              limits:
+                memory: 91Mi
+              requests:
+                cpu: 0.125
+                memory: 64Mi
+    - repoURL: https://github.com/koyashiro/k8s-manifests
+      targetRevision: HEAD
+      path: applications/mimir
+      directory:
+        exclude: application.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mimir
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
