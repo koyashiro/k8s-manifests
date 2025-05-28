@@ -1,0 +1,143 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - chart: loki
+      repoURL: https://grafana.github.io/helm-charts
+      targetRevision: v6.30.0
+      helm:
+        valuesObject:
+          global:
+            extraArgs:
+              - -config.expand-env=true
+            extraEnvFrom:
+              - secretRef:
+                  name: loki-environment-variables
+          loki:
+            schemaConfig:
+              configs:
+                - from: 2024-04-01
+                  store: tsdb
+                  object_store: s3
+                  schema: v13
+                  index:
+                    prefix: loki_index_
+                    period: 24h
+            ingester:
+              chunk_encoding: snappy
+            tracing:
+              enabled: true
+            querier:
+              max_concurrent: 4
+            storage:
+              type: s3
+              bucketNames:
+                chunks: ${LOKI_CHUNKS_BUCKET_NAME}
+                ruler: ${LOKI_RULER_BUCKET_NAME}
+                admin: ${LOKI_ADMIN_BUCKET_NAME}
+              s3:
+                endpoint: ${AWS_ENDPOINT_URL_S3}
+                region: ${AWS_REGION}
+                secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
+                accessKeyId: ${AWS_ACCESS_KEY_ID}
+                s3ForcePathStyle: true
+          gateway:
+            enabled: false
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt
+              nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+              nginx.ingress.kubernetes.io/backend-protocol: HTTP
+              nginx.ingress.kubernetes.io/auth-type: basic
+              nginx.ingress.kubernetes.io/auth-secret: loki-basic-auth
+              nginx.ingress.kubernetes.io/auth-realm: Authentication Required
+            paths:
+              distributor:
+                - /api/prom/push
+                - /loki/api/v1/push
+                - /otlp/v1/logs
+              queryFrontend:
+                - /api/prom/query
+                - /api/prom/label
+                - /api/prom/series
+                - /api/prom/tail
+                - /loki/api/v1/query
+                - /loki/api/v1/query_range
+                - /loki/api/v1/tail
+                - /loki/api/v1/label
+                - /loki/api/v1/labels
+                - /loki/api/v1/series
+                - /loki/api/v1/index/stats
+                - /loki/api/v1/index/volume
+                - /loki/api/v1/index/volume_range
+                - /loki/api/v1/format_query
+                - /loki/api/v1/detected_field
+                - /loki/api/v1/detected_fields
+                - /loki/api/v1/detected_labels
+                - /loki/api/v1/patterns
+              ruler:
+                - /api/prom/rules
+                - /api/prom/api/v1/rules
+                - /api/prom/api/v1/alerts
+                - /loki/api/v1/rules
+                - /prometheus/api/v1/rules
+                - /prometheus/api/v1/alerts
+            hosts:
+              - loki.koyashiro.net
+            tls:
+              - hosts:
+                  - loki.koyashiro.net
+                secretName: loki-tls
+          deploymentMode: SimpleScalable
+          backend:
+            replicas: 3
+          read:
+            replicas: 3
+            extraArgs:
+              # TODO: replace this later
+              # Ref: https://github.com/grafana/loki/pull/17020
+              - -config.expand-env=true
+          write:
+            replicas: 3
+          minio:
+            enabled: false
+          singleBinary:
+            replicas: 0
+          ingester:
+            replicas: 0
+          querier:
+            replicas: 0
+          queryFrontend:
+            replicas: 0
+          queryScheduler:
+            replicas: 0
+          distributor:
+            replicas: 0
+          compactor:
+            replicas: 0
+          indexGateway:
+            replicas: 0
+          bloomCompactor:
+            replicas: 0
+          bloomGateway:
+            replicas: 0
+    - repoURL: https://github.com/koyashiro/k8s-manifests
+      targetRevision: HEAD
+      path: applications/loki
+      directory:
+        exclude: application.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: loki
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true
