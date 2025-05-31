@@ -42,12 +42,6 @@ spec:
       kind: CustomResourceDefinition
       jsonPointers:
         - /spec/preserveUnknownFields
-    - group: "" # core
-      kind: Secret
-      name: longhorn-basic-auth
-      namespace: longhorn-system
-      jsonPointers:
-        - /data
   syncPolicy:
     automated:
       selfHeal: true

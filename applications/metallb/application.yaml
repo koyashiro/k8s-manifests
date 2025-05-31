@@ -26,12 +26,6 @@ spec:
       name: bgppeers.metallb.io
       jsonPointers:
         - /spec/conversion/webhook/clientConfig/caBundle
-    - group: metallb.io
-      kind: IPAddressPool
-      name: metallb-ip-address-pool
-      namespace: metallb-system
-      jsonPointers:
-        - /spec/addresses
   syncPolicy:
     automated:
       selfHeal: true
