@@ -35,8 +35,9 @@ spec:
                 s3:
                   bucket_name: ${MIMIR_ALERTMANAGER_STORAGE_BUCKET_NAME}
           alertmanager:
+            # TODO: enable persistence
             persistentVolume:
-              enabled: true
+              enabled: false
             replicas: 2
             resources:
               limits:
@@ -47,8 +48,9 @@ spec:
             statefulSet:
               enabled: true
           compactor:
+            # TODO: enable persistence
             persistentVolume:
-              size: 2.5Gi
+              enabled: false
             resources:
               limits:
                 memory: 0.262Gi
@@ -64,8 +66,9 @@ spec:
                 cpu: 0.25
                 memory: 0.5Gi
           ingester:
+            # TODO: enable persistence
             persistentVolume:
-              size: 6.25Gi
+              enabled: false
             replicas: 3
             resources:
               limits:
@@ -125,8 +128,9 @@ spec:
                 cpu: 0.125
                 memory: 0.25Gi
           store_gateway:
+            # TODO: enable persistence
             persistentVolume:
-              size: 1.25Gi
+              enabled: false
             replicas: 3
             resources:
               limits:
